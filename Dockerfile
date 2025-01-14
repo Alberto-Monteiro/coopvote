@@ -9,5 +9,7 @@ RUN mvn package
 FROM amazoncorretto:23
 WORKDIR /app
 COPY --from=build /build/target/*.jar app.jar
+COPY src/docker/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["/app/entrypoint.sh"]

@@ -12,6 +12,11 @@ services:
       MYSQL_DATABASE: coopvote
       MYSQL_ROOT_PASSWORD:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     #platform: linux/amd64
 
   app:
@@ -21,6 +26,7 @@ services:
     depends_on:
       - mysql
     environment:
+      SLEEP_APPLICATION: 10
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/coopvote
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD:
